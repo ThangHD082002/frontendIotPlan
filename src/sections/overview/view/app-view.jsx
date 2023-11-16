@@ -156,7 +156,7 @@ export default function AppView() {
         </Grid>
         <Grid xs={12} md={12} lg={6} sx={6}>
           <AppWebsiteVisits
-            title="Biểu đồ độ ẩm"
+            title="Biểu đồ độ ẩm không khí"
             subheader="Cập nhật gần nhất"
             chart={{
               labels: datetimeArrayDoam,
