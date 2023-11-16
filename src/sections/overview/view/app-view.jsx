@@ -12,7 +12,7 @@ import AppWidgetSummary from '../app-widget-summary';
 
 // ----------------------------------------------------------------------
 
-const chatSocket = new WebSocket("ws://iotplan.onrender.com/ws/chat/2/");
+const chatSocket = new WebSocket("wss://iotplan.onrender.com/ws/chat/2/");
 
 export default function AppView() {
   // const [door, setDoor] = useState(true);
