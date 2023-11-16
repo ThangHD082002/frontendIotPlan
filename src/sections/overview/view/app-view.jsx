@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
-import OpacityIcon from '@mui/icons-material/Opacity';
-import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import IronIcon from '@mui/icons-material/Iron';
+import OpacityIcon from '@mui/icons-material/Opacity';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 
 import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
@@ -14,8 +15,8 @@ import AppWidgetSummary from '../app-widget-summary';
 const chatSocket = new WebSocket("ws://iotplan.onrender.com/ws/chat/2/");
 
 export default function AppView() {
-  const [door, setDoor] = useState(true);
-  const [name, setName] = useState('');
+  // const [door, setDoor] = useState(true);
+  // const [name, setName] = useState('');
   const [nhietdo, setNhietdo] = useState('');
   const [doam, setDoam] = useState('');
   const [arrNhietdo, setArrNhietdo] = useState([]);
@@ -38,17 +39,17 @@ export default function AppView() {
     if (dataFromServer) {
       setChat([...chat, { msg: dataFromServer.message, name: dataFromServer.name }]);
       console.log(dataFromServer.message);
-      let messIot = dataFromServer.message.toString();
-      var regex = /b'([^']+)' (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+)/;
-      var match = messIot.match(regex);
+      const messIot = dataFromServer.message.toString();
+      const regex = /b'([^']+)' (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+)/;
+      const match = messIot.match(regex);
       if (match) {
-        var numberPart = match[1]; // "27.29257486406868 doam"
-        var dateTimePart = match[2];
+        const numberPart = match[1]; // "27.29257486406868 doam"
+        const dateTimePart = match[2];
 
-        var [number, sensor] = numberPart.split(' ');
+        const [number, sensor] = numberPart.split(' ');
     
         // Chuyển đổi số từ chuỗi thành float và làm tròn đến số thập phân thứ nhất
-        let roundedNumber = parseFloat(number).toFixed(1);
+        const roundedNumber = parseFloat(number).toFixed(1);
     
         // console.log("thời gian" + tg );
 

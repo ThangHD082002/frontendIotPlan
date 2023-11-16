@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
+import moment from 'moment-timezone';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 
 import Chart, { useChart } from 'src/components/chart';
-import moment from 'moment-timezone';
 // ----------------------------------------------------------------------
 
 export default function AppWebsiteVisits({ title, subheader, chart, ...other }) {
@@ -43,9 +43,9 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
           if (typeof value !== 'undefined') {
             if (title.toLowerCase() === 'biểu đồ độ ẩm') {
               return `${value.toFixed(1)} %`;
-            } else {
+            } 
               return `${value.toFixed(1)} °C`;
-            }
+            
           }
           return value;
         },

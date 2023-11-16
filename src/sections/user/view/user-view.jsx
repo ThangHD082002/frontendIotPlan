@@ -1,16 +1,14 @@
-import { useState } from 'react';
 
 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import AppWidgetSummary from '../app-widget-summary';
-
 import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
 
-import { users } from 'src/_mock/user';
 import Iconify from 'src/components/iconify';
+
+import AppWidgetSummary from '../app-widget-summary';
 
 // ----------------------------------------------------------------------
 

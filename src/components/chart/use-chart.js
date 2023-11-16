@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
@@ -11,7 +11,7 @@ export default function useChart(options) {
 
   const smUp = useResponsive('up', 'sm');
 
-  var x =  [
+  let x =  [
     theme.palette.primary.main,
     theme.palette.warning.main,
     theme.palette.info.main,
@@ -24,7 +24,7 @@ export default function useChart(options) {
   ]
 
 
-  if(options.titlee.toLowerCase() == 'biểu đồ nhiệt độ'){
+  if(options.titlee.toLowerCase() === 'biểu đồ nhiệt độ'){
     x = [
       theme.palette.warning.main,
       theme.palette.primary.main,
