@@ -12,10 +12,10 @@ export default function useChart(options) {
   const smUp = useResponsive('up', 'sm');
 
   let x =  [
-    theme.palette.primary.main,
-    theme.palette.warning.main,
     theme.palette.info.main,
     theme.palette.error.main,
+    theme.palette.primary.main,
+    theme.palette.warning.main,
     theme.palette.success.main,
     theme.palette.warning.dark,
     theme.palette.success.darker,
