@@ -27,6 +27,19 @@ export default function AppView() {
   const [arrDoamDat, setArrDoamDat] = useState([]);
 
   const [chat, setChat] = useState([]);
+  const [lc, setLc] = useState(true);
+
+
+
+  useEffect(() => {
+
+    console.log("nhiet do lc: ", localStorage.getItem('arrNhietdolc'))
+    console.log("Do am lc: ", localStorage.getItem('arrDoamlc'))
+    console.log("Do am dat lc: ", localStorage.getItem('arrDoamdatlc'))
+
+
+
+  }, [lc]);
 
   useEffect(() => {
     chatSocket.onopen = () => {
@@ -67,7 +80,15 @@ export default function AppView() {
             datetime: dateTimePart,
           };
           setArrNhietdo((prevArr) => [...prevArr, newObject]);
-          console.log(arrNhietdo);
+          const storedArray = JSON.parse(localStorage.getItem('arrNhietdolc')) || [];
+          storedArray.push(newObject);
+          if(storedArray.length < 25) {
+            localStorage.setItem('arrNhietdolc', JSON.stringify(storedArray));
+          } else{
+            localStorage.setItem('arrNhietdolc', JSON.stringify([]));
+          }
+          setLc(!lc)
+          // console.log(arrNhietdo);
           setNhietdo(roundedNumber);
         } else if (sensor.toString() === 'doam') {
           const newObject = {
@@ -76,7 +97,16 @@ export default function AppView() {
             datetime: dateTimePart,
           };
           setArrDoam((prevArr) => [...prevArr, newObject]);
-          console.log(arrDoam);
+          const storedArray = JSON.parse(localStorage.getItem('arrDoamlc')) || [];
+          storedArray.push(newObject);
+          if(storedArray.length < 25) {
+            localStorage.setItem('arrDoamlc', JSON.stringify(storedArray));
+          } else{
+            localStorage.setItem('arrDoamlc', JSON.stringify([]));
+          }
+          
+          setLc(!lc)
+          // console.log(arrDoam);
           setDoam(roundedNumber);
         } else {
           const newObject = {
@@ -85,7 +115,15 @@ export default function AppView() {
             datetime: dateTimePart,
           };
           setArrDoamDat((prevArr) => [...prevArr, newObject]);
-          console.log(arrDoamDat);
+          const storedArray = JSON.parse(localStorage.getItem('arrDoamdatlc')) || [];
+          storedArray.push(newObject);
+          if(storedArray.length < 25) {
+            localStorage.setItem('arrDoamdatlc', JSON.stringify(storedArray));
+          } else{
+            localStorage.setItem('arrDoamdatlc', JSON.stringify([]));
+          }
+          setLc(!lc)
+          // console.log(arrDoamDat);
           setDoamdat(roundedNumber);
         }
       }
@@ -94,17 +132,20 @@ export default function AppView() {
     }
   };
 
-  const datetimeArray = arrNhietdo.map((item) => item.datetime);
-  const nhietdoArray = arrNhietdo.map((item) => item.temperature);
+  const arrNhietdolcChart = JSON.parse(localStorage.getItem('arrNhietdolc')) || [];
+  const arrDoamlcChart = JSON.parse(localStorage.getItem('arrDoamlc')) || [];
+  const arrDoamdatlcChart = JSON.parse(localStorage.getItem('arrDoamdatlc')) || [];
 
-  const datetimeArrayDoam = arrDoam.map((item) => item.datetime);
-  const doamArray = arrDoam.map((item) => item.humanlity);
+
+
+  const datetimeArray = arrNhietdolcChart.map((item) => item.datetime);
+  const nhietdoArray = arrNhietdolcChart.map((item) => item.temperature);
+
+  const datetimeArrayDoam = arrDoamlcChart.map((item) => item.datetime);
+  const doamArray = arrDoamlcChart.map((item) => item.humanlity);
 
   // const datetimeArrayDoamdat = arrDoamDat.map((item) => item.datetime);
-  const doamdatArray = arrDoamDat.map((item) => item.doAmDat);
-
-  console.log('datetimeArray: ', datetimeArray);
-
+  const doamdatArray = arrDoamdatlcChart.map((item) => item.doAmDat);
   return (
     <Container maxWidth="xl">
       <Grid container spacing={3}>

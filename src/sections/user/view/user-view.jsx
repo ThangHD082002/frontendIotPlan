@@ -19,7 +19,7 @@ const chatSocket = new WebSocket('wss://iotplan.onrender.com/ws/chat/2/');
 
 export default function UserPage() {
   
-  // const [onWatering, setOnwatering] = useState('');
+  const [onWatering, setOnwatering] = useState(false);
   const [chat, setChat] = useState([]);
   const [auto, setAuto] = useState(false);
 
@@ -38,10 +38,13 @@ export default function UserPage() {
   useEffect(() => {
     // Lấy giá trị từ local storage (hoặc nơi lưu trữ khác) khi component được tạo
     const savedAuto = localStorage.getItem('savedAuto');
+    const savedOnWatering = localStorage.getItem('savedOnWatering');
+
 
     // Nếu giá trị tồn tại, cập nhật state
-    if (savedAuto !== null) {
+    if (savedAuto !== null && savedOnWatering !== null) {
       setAuto(savedAuto === 'true');
+      setOnwatering(savedOnWatering === 'true');
     }
   }, []);
 
@@ -81,7 +84,8 @@ export default function UserPage() {
   };
 
   const handleWatering= (e) => {
-    // setOnwatering(e.target.checked.toString());
+    setOnwatering(!onWatering);
+    localStorage.setItem('savedOnWatering',!onWatering);
     const x = `${e.target.checked.toString()  } water`;
     enviar(x);
   };
@@ -126,6 +130,7 @@ export default function UserPage() {
             onChange={handleWatering}
             // checked={this.state.active}
             disabled={auto === true}
+            checked={onWatering}
           />}/>
         </Grid>
       </Grid>
