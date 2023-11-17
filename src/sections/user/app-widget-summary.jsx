@@ -5,35 +5,59 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { fShortenNumber } from 'src/utils/format-number';
 
 // ----------------------------------------------------------------------
 
-export default function AppWidgetSummary({ title, total, icon, color = 'primary', sx, ...other }) {
-  return (
-    <Card
-      component={Stack}
-      spacing={3}
-      direction="row"
-      sx={{
-        px: 3,
-        py: 5,
-        borderRadius: 2,
-        ...sx,
-      }}
-      {...other}
-    >
-      {icon && <Box sx={{ width: 64, height: 64 }}>{icon}</Box>}
+export default function AppWidgetSummary({ title, icon, color = 'primary', sx,x, ...other }) {
 
-      <Stack spacing={0.5}>
-        <Typography variant="h4">{fShortenNumber(total)}</Typography>
+  const handleSwitch = (e) => {
+    console.log(e.target.checked);
+  };
 
-        <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-          {title}
-        </Typography>
-      </Stack>
-    </Card>
-  );
+  if(title.toLowerCase() === 'hệ thống tự động'){
+    return (
+      <Card
+        component={Stack}
+        spacing={3}
+        direction="row"
+        sx={{
+          px: 3,
+          py: 5,
+          borderRadius: 2,
+          ...sx,
+        }}
+        {...other}
+      >
+        {icon && <Box sx={{ width: 64, height: 64 }}>{icon}</Box>}
+        <Stack direction="row" spacing={{ xs: 12, sm: 2, md: 26 }} justifyContent="space-between" alignItems="center">
+          <Typography variant="h4">{title}</Typography>
+          <h1>{x}</h1>
+        </Stack>
+      </Card>
+    );
+  } 
+  
+    return (
+      <Card
+        component={Stack}
+        spacing={3}
+        direction="row"
+        sx={{
+          px: 3,
+          py: 5,
+          borderRadius: 2,
+          ...sx,
+        }}
+        {...other}
+      >
+        {icon && <Box sx={{ width: 64, height: 64 }}>{icon}</Box>}
+        <Stack direction="row" spacing={{ xs: 22, sm: 2, md: 36 }} justifyContent="space-between" alignItems="center">
+          <Typography variant="h4">{title}</Typography>
+          <h1>{x}</h1>
+        </Stack>
+      </Card>
+    );
+  
 }
 
 AppWidgetSummary.propTypes = {

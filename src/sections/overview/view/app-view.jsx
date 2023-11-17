@@ -12,7 +12,8 @@ import AppWidgetSummary from '../app-widget-summary';
 
 // ----------------------------------------------------------------------
 
-const chatSocket = new WebSocket('wss://iotplan.onrender.com/ws/chat/2/');
+// const chatSocket = new WebSocket('wss://iotplan.onrender.com/ws/chat/2/');
+const chatSocket = new WebSocket('ws://localhost:8000/ws/chat/2/');
 
 export default function AppView() {
   // const [door, setDoor] = useState(true);
@@ -41,7 +42,7 @@ export default function AppView() {
     const dataFromServer = JSON.parse(message.data);
     if (dataFromServer) {
       setChat([...chat, { msg: dataFromServer.message, name: dataFromServer.name }]);
-      console.log(dataFromServer.message);
+      // console.log(dataFromServer.message);
       const messIot = dataFromServer.message.toString();
       const regex = /b'([^']+)' (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+)/;
       const match = messIot.match(regex);
