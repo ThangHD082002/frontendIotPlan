@@ -17,7 +17,7 @@ const chatSocket = new WebSocket('ws://localhost:8000/ws/chat/2/');
 
 export default function UserPage() {
   
-  const [onWatering, setOnwatering] = useState('');
+  // const [onWatering, setOnwatering] = useState('');
   const [chat, setChat] = useState([]);
   const [auto, setAuto] = useState(false);
 
@@ -74,13 +74,13 @@ export default function UserPage() {
   const handleAuto= (e) => {
     setAuto(!auto);
     localStorage.setItem('savedAuto',!auto);
-    var x = (!auto).toString() + " auto";
+    const x = `${(!auto).toString()  } auto`;
     enviar(x);
   };
 
   const handleWatering= (e) => {
-    setOnwatering(e.target.checked.toString());
-    var x = e.target.checked.toString() + " water";
+    // setOnwatering(e.target.checked.toString());
+    const x = `${e.target.checked.toString()  } water`;
     enviar(x);
   };
 

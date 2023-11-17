@@ -66,4 +66,5 @@ AppWidgetSummary.propTypes = {
   sx: PropTypes.object,
   title: PropTypes.string,
   total: PropTypes.number,
+  x: PropTypes.any,
 };
