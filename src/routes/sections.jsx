@@ -18,7 +18,7 @@ export default function Router() {
         </DashboardLayout>
       ),
       children: [
-        { element: <IndexPage />, index: true ,  path: 'setting',},
+        { element: <IndexPage />, index: true ,  path: '',},
         // { element: <UserPage />, path: 'home', },
       ],
     },
