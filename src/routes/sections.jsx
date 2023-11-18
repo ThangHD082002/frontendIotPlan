@@ -18,8 +18,8 @@ export default function Router() {
         </DashboardLayout>
       ),
       children: [
-        { element: <IndexPage />, path: 'setting',},
-        { element: <UserPage />, path: 'home', },
+        { element: <IndexPage />, index: true ,  path: 'setting',},
+        // { element: <UserPage />, path: 'home', },
       ],
     },
   ]);
