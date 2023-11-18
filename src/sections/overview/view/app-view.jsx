@@ -14,6 +14,7 @@ import AppWidgetSummary from '../app-widget-summary';
 
 const chatSocket = new WebSocket('wss://iotplan.onrender.com/ws/chat/2/');
 
+
 // const chatSocket = new WebSocket('ws://localhost:8000/ws/chat/2/');
 
 export default function AppView() {
@@ -23,12 +24,38 @@ export default function AppView() {
   const [doam, setDoam] = useState('');
   const [doamdat, setDoamdat] = useState('');
 
+  const [countNhietdo, setCountNhietdo] = useState(0);
+  const [countDoam, setCountDoam] = useState(0);
+  const [countDoamdat, setCountDoamdat] = useState(0);
+
+
   const [arrNhietdo, setArrNhietdo] = useState([]);
   const [arrDoam, setArrDoam] = useState([]);
   const [arrDoamDat, setArrDoamDat] = useState([]);
 
+
   const [chat, setChat] = useState([]);
   const [lc, setLc] = useState(true);
+
+
+
+  // useEffect(() => {
+  //   if(nhietdo === ''){
+  //     localStorage.removeItem('arrNhietdolc');
+  //   }
+  //   if(doam === ''){
+  //     localStorage.removeItem('arrDoamlc');
+  //   }
+  //   if(doamdat === ''){
+  //     localStorage.removeItem('arrDoamdatlc');
+  //   }
+  // }, [nhietdo,doam , doamdat]);
+
+  useEffect(() => {
+    console.log('nhiet do lc: ', localStorage.getItem('arrNhietdolc'));
+    console.log('Do am lc: ', localStorage.getItem('arrDoamlc'));
+    console.log('Do am dat lc: ', localStorage.getItem('arrDoamdatlc'));
+  }, [lc]);
 
   useEffect(() => {
     console.log('nhiet do lc: ', localStorage.getItem('arrNhietdolc'));

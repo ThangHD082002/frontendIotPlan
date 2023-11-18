@@ -19,7 +19,7 @@ export default function Router() {
       ),
       children: [
         { element: <IndexPage />, index: true },
-        { path: 'setting', element: <UserPage />},
+        { path: '/setting', element: <UserPage />},
       ],
     },
   ]);

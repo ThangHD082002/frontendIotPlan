@@ -10,9 +10,6 @@ import Typography from '@mui/material/Typography';
 
 export default function AppWidgetSummary({ title, icon, color = 'primary', sx,x, ...other }) {
 
-  const handleSwitch = (e) => {
-    console.log(e.target.checked);
-  };
 
   if(title.toLowerCase() === 'hệ thống tự động'){
     return (
