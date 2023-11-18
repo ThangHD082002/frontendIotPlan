@@ -14,7 +14,7 @@ const navConfig = [
   },
   {
     title: 'Settings',
-    path: '/setting',
+    path: '/setting/home/',
     icon: icon('ic_user'),
   },
 
