@@ -15,6 +15,7 @@ import AppWidgetSummary from '../app-widget-summary';
 const chatSocket = new WebSocket('wss://iotplan.onrender.com/ws/chat/2/');
 
 
+
 // const chatSocket = new WebSocket('ws://localhost:8000/ws/chat/2/');
 
 export default function AppView() {
@@ -28,16 +29,12 @@ export default function AppView() {
   const [countDoam, setCountDoam] = useState(0);
   const [countDoamdat, setCountDoamdat] = useState(0);
 
-
   const [arrNhietdo, setArrNhietdo] = useState([]);
   const [arrDoam, setArrDoam] = useState([]);
   const [arrDoamDat, setArrDoamDat] = useState([]);
 
-
   const [chat, setChat] = useState([]);
   const [lc, setLc] = useState(true);
-
-
 
   // useEffect(() => {
   //   if(nhietdo === ''){
@@ -51,11 +48,11 @@ export default function AppView() {
   //   }
   // }, [nhietdo,doam , doamdat]);
 
-  useEffect(() => {
-    console.log('nhiet do lc: ', localStorage.getItem('arrNhietdolc'));
-    console.log('Do am lc: ', localStorage.getItem('arrDoamlc'));
-    console.log('Do am dat lc: ', localStorage.getItem('arrDoamdatlc'));
-  }, [lc]);
+  // useEffect(() => {
+  //   console.log('nhiet do lc: ', localStorage.getItem('arrNhietdolc'));
+  //   console.log('Do am lc: ', localStorage.getItem('arrDoamlc'));
+  //   console.log('Do am dat lc: ', localStorage.getItem('arrDoamdatlc'));
+  // }, [lc]);
 
   useEffect(() => {
     console.log('nhiet do lc: ', localStorage.getItem('arrNhietdolc'));
@@ -79,76 +76,85 @@ export default function AppView() {
       setChat([...chat, { msg: dataFromServer.message, name: dataFromServer.name }]);
       // console.log(dataFromServer.message);
       const messIot = dataFromServer.message.toString();
-      const regex = /b'([^']+)' (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+)/;
-      const match = messIot.match(regex);
-      if (match) {
-        const numberPart = match[1]; // "27.29257486406868 doam"
-        const dateTimePart = match[2];
+      // Loại bỏ ký tự "b" và dấu nháy đơn ở đầu và cuối chuỗi
+      const cleanedString = messIot.slice(2, -1);
 
-        const [number, sensor] = numberPart.split(' ');
+      // Chia chuỗi thành mảng các thành phần
+      const parts = cleanedString.split(' ');
 
-        // Chuyển đổi số từ chuỗi thành float và làm tròn đến số thập phân thứ nhất
-        const roundedNumber = parseFloat(number).toFixed(1);
+      // Chuyển đổi từng thành phần thành số hoặc chuỗi ngày giờ
+      const num1 = parseFloat(parts[0]);
+      const num2 = parseFloat(parts[1]);
+      const num3 = parseFloat(parts[2]);
+      const dateTime = parts.slice(3).join(' ');
 
-        // console.log("thời gian" + tg );
+      const roundedNum1 = Math.round(num1 * 10) / 10;
+      const roundedNum2 = Math.round(num2 * 10) / 10;
+      const roundedNum3 = Math.round(num3 * 10) / 10;
 
-        console.log('Số:', roundedNumber);
-        console.log('Sensor', sensor);
-        console.log('Ngày giờ:', dateTimePart);
-        if (sensor.toString() === 'nhietdo') {
-          const newObject = {
-            title: sensor,
-            temperature: roundedNumber,
-            datetime: dateTimePart,
-          };
-          setArrNhietdo((prevArr) => [...prevArr, newObject]);
-          const storedArray = JSON.parse(localStorage.getItem('arrNhietdolc')) || [];
-          storedArray.push(newObject);
-          if (storedArray.length < 25) {
-            localStorage.setItem('arrNhietdolc', JSON.stringify(storedArray));
-          } else {
-            localStorage.setItem('arrNhietdolc', JSON.stringify([]));
-          }
-          setLc(!lc);
-          // console.log(arrNhietdo);
-          setNhietdo(roundedNumber);
-        } else if (sensor.toString() === 'doamkhongkhi') {
-          const newObject = {
-            title: sensor,
-            humanlity: roundedNumber,
-            datetime: dateTimePart,
-          };
-          setArrDoam((prevArr) => [...prevArr, newObject]);
-          const storedArray = JSON.parse(localStorage.getItem('arrDoamlc')) || [];
-          storedArray.push(newObject);
-          if (storedArray.length < 25) {
-            localStorage.setItem('arrDoamlc', JSON.stringify(storedArray));
-          } else {
-            localStorage.setItem('arrDoamlc', JSON.stringify([]));
-          }
+      const nhietDo = roundedNum1.toString();
+      const doAm = roundedNum2.toString();
+      const doAmdat = roundedNum3.toString();
+      const dateTimeString = String(dateTime);
 
-          setLc(!lc);
-          // console.log(arrDoam);
-          setDoam(roundedNumber);
-        } else {
-          const newObject = {
-            title: sensor,
-            doAmDat: roundedNumber,
-            datetime: dateTimePart,
-          };
-          setArrDoamDat((prevArr) => [...prevArr, newObject]);
-          const storedArray = JSON.parse(localStorage.getItem('arrDoamdatlc')) || [];
-          storedArray.push(newObject);
-          if (storedArray.length < 25) {
-            localStorage.setItem('arrDoamdatlc', JSON.stringify(storedArray));
-          } else {
-            localStorage.setItem('arrDoamdatlc', JSON.stringify([]));
-          }
-          setLc(!lc);
-          // console.log(arrDoamDat);
-          setDoamdat(roundedNumber);
-        }
+      console.log('nhiet do:', nhietDo);
+      console.log('do am:', doAm);
+      console.log('do am dat:', doAmdat);
+      console.log('Date Time:', dateTimeString );
+
+
+
+      const newObjectNhietdo = {
+        title: 'nhiệt độ',
+        temperature: nhietDo,
+        datetime: dateTimeString,
+      };
+      const storedArrayNhietdo = JSON.parse(localStorage.getItem('arrNhietdolc')) || [];
+      storedArrayNhietdo.push(newObjectNhietdo);
+      if (storedArrayNhietdo.length < 25) {
+        localStorage.setItem('arrNhietdolc', JSON.stringify(storedArrayNhietdo));
+      } else {
+        localStorage.setItem('arrNhietdolc', JSON.stringify([]));
       }
+      // console.log(arrNhietdo);
+
+
+      const newObjectDoam = {
+        title: "độ ẩm",
+        humanlity: doAm,
+        datetime: dateTimeString,
+      };
+      const storedArrayDoam = JSON.parse(localStorage.getItem('arrDoamlc')) || [];
+      storedArrayDoam.push(newObjectDoam );
+      if (storedArrayDoam.length < 25) {
+        localStorage.setItem('arrDoamlc', JSON.stringify(storedArrayDoam));
+      } else {
+        localStorage.setItem('arrDoamlc', JSON.stringify([]));
+      }
+
+
+      const newObjectDoamdat = {
+        title: "độ ẩm đất",
+        doAmDat: doAmdat,
+        datetime: dateTimeString,
+      };
+      const storedArrayDoamdat = JSON.parse(localStorage.getItem('arrDoamdatlc')) || [];
+      storedArrayDoamdat.push(newObjectDoamdat);
+      if (storedArrayDoamdat.length < 25) {
+        localStorage.setItem('arrDoamdatlc', JSON.stringify(storedArrayDoamdat));
+      } else {
+        localStorage.setItem('arrDoamdatlc', JSON.stringify([]));
+      }
+
+
+      setLc(!lc);
+      // console.log(arrDoamDat);
+      setNhietdo(nhietDo);
+      setArrNhietdo((prevArr) => [...prevArr, newObjectNhietdo]);
+      setDoam(doAm);
+      setArrDoam((prevArr) => [...prevArr, newObjectDoam]);
+      setDoamdat(doAmdat);
+      setArrDoamDat((prevArr) => [...prevArr, newObjectDoamdat]);
     } else {
       console.log('Không tìm thấy số và chuỗi trong chuỗi.');
     }
@@ -207,15 +213,8 @@ export default function AppView() {
             icon={<WaterDropIcon sx={{ fontSize: 60, m: 0.8, color: '#ff5630' }} />}
           />
         </Grid>
-        <Grid
-          container
-          xs={12}
-          sm={12}
-          md={12}
-          spacing={2}
-          
-        >
-          <Grid xs={12} sm={6} item >
+        <Grid container xs={12} sm={12} md={12} spacing={2}>
+          <Grid xs={12} sm={6} item>
             <AppWebsiteVisits
               title="Biểu đồ nhiệt độ"
               subheader="Cập nhật gần nhất"
