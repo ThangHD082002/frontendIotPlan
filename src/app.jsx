@@ -17,3 +17,20 @@ export default function App() {
     </ThemeProvider>
   );
 }
+
+
+// export default function App() {
+//   useScrollToTop();
+
+//   const renderChildren = () => {
+//     const childrenArray = Router.Children.toArray(Router().props.children);
+
+//     return childrenArray.map((child, index) => (
+//       <ThemeProvider key={index}>
+//         {Router.cloneElement(child, { key: index })}
+//       </ThemeProvider>
+//     ));
+//   };
+
+//   return <>{renderChildren()}</>;
+// }

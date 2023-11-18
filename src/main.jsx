@@ -10,11 +10,11 @@ import App from './app';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
+  <BrowserRouter>
   <HelmetProvider>
-    <BrowserRouter>
       <Suspense>
         <App />
       </Suspense>
-    </BrowserRouter>
   </HelmetProvider>
+  </BrowserRouter>
 );
