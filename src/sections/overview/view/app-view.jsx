@@ -85,7 +85,7 @@ export default function AppView() {
           setLc(!lc);
           // console.log(arrNhietdo);
           setNhietdo(roundedNumber);
-        } else if (sensor.toString() === 'doam') {
+        } else if (sensor.toString() === 'doamkhongkhi') {
           const newObject = {
             title: sensor,
             humanlity: roundedNumber,
