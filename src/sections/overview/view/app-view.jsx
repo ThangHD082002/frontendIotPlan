@@ -30,16 +30,10 @@ export default function AppView() {
   const [chat, setChat] = useState([]);
   const [lc, setLc] = useState(true);
 
-
-
   useEffect(() => {
-
-    console.log("nhiet do lc: ", localStorage.getItem('arrNhietdolc'))
-    console.log("Do am lc: ", localStorage.getItem('arrDoamlc'))
-    console.log("Do am dat lc: ", localStorage.getItem('arrDoamdatlc'))
-
-
-
+    console.log('nhiet do lc: ', localStorage.getItem('arrNhietdolc'));
+    console.log('Do am lc: ', localStorage.getItem('arrDoamlc'));
+    console.log('Do am dat lc: ', localStorage.getItem('arrDoamdatlc'));
   }, [lc]);
 
   useEffect(() => {
@@ -83,12 +77,12 @@ export default function AppView() {
           setArrNhietdo((prevArr) => [...prevArr, newObject]);
           const storedArray = JSON.parse(localStorage.getItem('arrNhietdolc')) || [];
           storedArray.push(newObject);
-          if(storedArray.length < 25) {
+          if (storedArray.length < 25) {
             localStorage.setItem('arrNhietdolc', JSON.stringify(storedArray));
-          } else{
+          } else {
             localStorage.setItem('arrNhietdolc', JSON.stringify([]));
           }
-          setLc(!lc)
+          setLc(!lc);
           // console.log(arrNhietdo);
           setNhietdo(roundedNumber);
         } else if (sensor.toString() === 'doam') {
@@ -100,13 +94,13 @@ export default function AppView() {
           setArrDoam((prevArr) => [...prevArr, newObject]);
           const storedArray = JSON.parse(localStorage.getItem('arrDoamlc')) || [];
           storedArray.push(newObject);
-          if(storedArray.length < 25) {
+          if (storedArray.length < 25) {
             localStorage.setItem('arrDoamlc', JSON.stringify(storedArray));
-          } else{
+          } else {
             localStorage.setItem('arrDoamlc', JSON.stringify([]));
           }
-          
-          setLc(!lc)
+
+          setLc(!lc);
           // console.log(arrDoam);
           setDoam(roundedNumber);
         } else {
@@ -118,12 +112,12 @@ export default function AppView() {
           setArrDoamDat((prevArr) => [...prevArr, newObject]);
           const storedArray = JSON.parse(localStorage.getItem('arrDoamdatlc')) || [];
           storedArray.push(newObject);
-          if(storedArray.length < 25) {
+          if (storedArray.length < 25) {
             localStorage.setItem('arrDoamdatlc', JSON.stringify(storedArray));
-          } else{
+          } else {
             localStorage.setItem('arrDoamdatlc', JSON.stringify([]));
           }
-          setLc(!lc)
+          setLc(!lc);
           // console.log(arrDoamDat);
           setDoamdat(roundedNumber);
         }
@@ -137,15 +131,14 @@ export default function AppView() {
   const arrDoamlcChart = JSON.parse(localStorage.getItem('arrDoamlc')) || [];
   const arrDoamdatlcChart = JSON.parse(localStorage.getItem('arrDoamdatlc')) || [];
 
-
-
-  const datetimeArray = arrNhietdolcChart.map((item) => item.datetime);
+  const datetimeArrayNhietdo = arrNhietdolcChart.map((item) => item.datetime);
   const nhietdoArray = arrNhietdolcChart.map((item) => item.temperature);
 
   const datetimeArrayDoam = arrDoamlcChart.map((item) => item.datetime);
   const doamArray = arrDoamlcChart.map((item) => item.humanlity);
 
   // const datetimeArrayDoamdat = arrDoamDat.map((item) => item.datetime);
+  const datetimeArrayDoamdat = arrDoamdatlcChart.map((item) => item.datetime);
   const doamdatArray = arrDoamdatlcChart.map((item) => item.doAmDat);
   return (
     <Container maxWidth="xl">
@@ -156,7 +149,7 @@ export default function AppView() {
             total={`${nhietdo} °C`}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-            icon={<DeviceThermostatIcon sx={{ fontSize: 60, m: 0.8, color: 'green' }} />}
+            icon={<DeviceThermostatIcon sx={{ fontSize: 60, m: 0.8, color: '#ffab00' }} />}
           />
         </Grid>
 
@@ -166,7 +159,7 @@ export default function AppView() {
             total={`${doam} %`}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
-            icon={<OpacityIcon sx={{ fontSize: 60, m: 0.8, color: '#1877f2' }} />}
+            icon={<OpacityIcon sx={{ fontSize: 60, m: 0.8, color: '#00b8d9' }} />}
           />
         </Grid>
 
@@ -184,16 +177,23 @@ export default function AppView() {
             title="Độ ẩm đất"
             total={`${doamdat} %`}
             color="error"
-            icon={<WaterDropIcon sx={{ fontSize: 60, m: 0.8, color: '#00b8d9' }} />}
+            icon={<WaterDropIcon sx={{ fontSize: 60, m: 0.8, color: '#ff5630' }} />}
           />
         </Grid>
-        <Grid container xs={12} sm={12} md={12}>
-          <Grid xs={12} sm={6}>
+        <Grid
+          container
+          xs={12}
+          sm={12}
+          md={12}
+          spacing={2}
+          
+        >
+          <Grid xs={12} sm={6} item >
             <AppWebsiteVisits
               title="Biểu đồ nhiệt độ"
               subheader="Cập nhật gần nhất"
               chart={{
-                labels: datetimeArray,
+                labels: datetimeArrayNhietdo,
                 series: [
                   {
                     name: 'Nhiệt độ',
@@ -211,9 +211,9 @@ export default function AppView() {
               }}
             />
           </Grid>
-          <Grid xs={12} md={12} lg={6} sx={6}>
+          <Grid xs={12} md={12} lg={6} sx={6} item>
             <AppWebsiteVisits
-              title="Biểu đồ độ ẩm không khí và độ ẩm đất"
+              title="Biểu đồ độ ẩm không khí"
               subheader="Cập nhật gần nhất"
               chart={{
                 labels: datetimeArrayDoam,
@@ -230,12 +230,6 @@ export default function AppView() {
                     fill: 'gradient',
                     data: doamArray,
                   },
-                  {
-                    name: 'Độ ẩm đất',
-                    type: 'line',
-                    fill: 'solid',
-                    data: doamdatArray,
-                  },
                 ],
                 tooltip: {
                   y: {
@@ -247,6 +241,29 @@ export default function AppView() {
                     },
                   },
                 },
+              }}
+            />
+          </Grid>
+          <Grid xs={12} sm={8} item mx="auto">
+            <AppWebsiteVisits
+              title="Biểu đồ độ ẩm đất"
+              subheader="Cập nhật gần nhất"
+              chart={{
+                labels: datetimeArrayDoamdat,
+                series: [
+                  {
+                    name: 'Độ ẩm đất',
+                    type: 'line',
+                    fill: 'solid',
+                    data: doamdatArray,
+                  },
+                  // {
+                  //   name: 'Team C',
+                  //   type: 'line',
+                  //   fill: 'solid',
+                  //   data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                  // },
+                ],
               }}
             />
           </Grid>

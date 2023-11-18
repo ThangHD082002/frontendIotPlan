@@ -37,6 +37,20 @@ export default function useChart(options) {
       theme.palette.info.darker,
     ]
   }
+
+  if(options.titlee.toLowerCase() === 'biểu đồ độ ẩm đất'){
+    x = [
+      theme.palette.error.main,
+      theme.palette.warning.main,
+      theme.palette.primary.main,
+      theme.palette.info.main,
+      theme.palette.success.main,
+      theme.palette.warning.dark,
+      theme.palette.success.darker,
+      theme.palette.info.dark,
+      theme.palette.info.darker,
+    ]
+  }
   
 
   const baseOptions = {
