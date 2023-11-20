@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
-import IronIcon from '@mui/icons-material/Iron';
 import OpacityIcon from '@mui/icons-material/Opacity';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
@@ -13,6 +12,8 @@ import AppWidgetSummary from '../app-widget-summary';
 // ----------------------------------------------------------------------
 
 const chatSocket = new WebSocket('wss://iotplan.onrender.com/ws/chat/2/');
+
+
 
 
 
@@ -43,7 +44,34 @@ export default function AppView() {
     console.log('nhiet do lc: ', localStorage.getItem('arrNhietdolc'));
     console.log('Do am lc: ', localStorage.getItem('arrDoamlc'));
     console.log('Do am dat lc: ', localStorage.getItem('arrDoamdatlc'));
+
   }, [lc]);
+
+
+  useEffect(() => {
+    // Tạo một hàm để kiểm tra và xoá giá trị
+    const checkAndDeleteValue = () => {
+      if (nhietdo === '') {
+        // Xoá giá trị nếu nó là rỗng
+        localStorage.removeItem('arrNhietdolc');
+      }
+      if (doam === '') {
+        // Xoá giá trị nếu nó là rỗng
+        localStorage.removeItem('arrDoamlc');
+      }
+      if (doamdat === '') {
+        // Xoá giá trị nếu nó là rỗng
+        localStorage.removeItem('arrDoamdatlc');
+      }
+      
+    };
+
+    // Sử dụng setTimeout để đặt thời gian 10 giây
+    const timeoutId = setTimeout(checkAndDeleteValue, 10000);
+
+    // Cleanup effect khi component unmount hoặc giá trị thay đổi
+    return () => clearTimeout(timeoutId);
+  }, [nhietdo, doam, doamdat]);
 
   useEffect(() => {
     chatSocket.onopen = () => {
@@ -171,42 +199,35 @@ export default function AppView() {
   return (
     <Container maxWidth="xl">
       <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Nhiệt độ"
-            total={`${nhietdo} °C`}
-            color="success"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-            icon={<DeviceThermostatIcon sx={{ fontSize: 60, m: 0.8, color: '#ffab00' }} />}
-          />
-        </Grid>
+        <Grid container  md={12}>
+          <Grid xs={12} sm={6} md={4}>
+            <AppWidgetSummary
+              title="Nhiệt độ"
+              total={`${nhietdo} °C`}
+              color="success"
+              // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+              icon={<DeviceThermostatIcon sx={{ fontSize: 60, m: 0.8, color: '#ffab00' }} />}
+            />
+          </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Độ ẩm không khí"
-            total={`${doam} %`}
-            color="info"
-            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
-            icon={<OpacityIcon sx={{ fontSize: 60, m: 0.8, color: '#00b8d9' }} />}
-          />
-        </Grid>
+          <Grid xs={12} sm={6} md={4}>
+            <AppWidgetSummary
+              title="Độ ẩm không khí"
+              total={`${doam} %`}
+              color="info"
+              // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+              icon={<OpacityIcon sx={{ fontSize: 60, m: 0.8, color: '#00b8d9' }} />}
+            />
+          </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Lượng nước đã tưới"
-            total={`${172} ml`}
-            color="warning"
-            icon={<IronIcon sx={{ fontSize: 60, m: 0.8, color: '#fb8d67' }} />}
-          />
-        </Grid>
-
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Độ ẩm đất"
-            total={`${doamdat} %`}
-            color="error"
-            icon={<WaterDropIcon sx={{ fontSize: 60, m: 0.8, color: '#ff5630' }} />}
-          />
+          <Grid xs={12} sm={6} md={4}>
+            <AppWidgetSummary
+              title="Độ ẩm đất"
+              total={`${doamdat} %`}
+              color="error"
+              icon={<WaterDropIcon sx={{ fontSize: 60, m: 0.8, color: '#ff5630' }} />}
+            />
+          </Grid>
         </Grid>
         <Grid container xs={12} sm={12} md={12} spacing={2}>
           <Grid xs={12} sm={6} item>

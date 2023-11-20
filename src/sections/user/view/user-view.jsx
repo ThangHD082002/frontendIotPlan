@@ -22,11 +22,6 @@ const chatSocket = new WebSocket('wss://iotplan.onrender.com/ws/chat/2/');
 
 
 
-
-
-
-
-
 export default function UserPage() {
   
   const [onWatering, setOnwatering] = useState(false);

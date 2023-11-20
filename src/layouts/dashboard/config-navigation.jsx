@@ -8,14 +8,19 @@ const icon = (name) => (
 
 const navConfig = [
   {
-    title: 'dashboard',
+    title: 'Trang chủ',
     path: '/',
     icon: icon('ic_analytics'),
   },
   {
-    title: 'Settings',
+    title: 'Cài đặt',
     path: '/setting/home/',
     icon: icon('ic_user'),
+  },
+  {
+    title: 'Lịch sử',
+    path: '/thongke/',
+    icon: icon('ic_blog'),
   },
 
 ];
