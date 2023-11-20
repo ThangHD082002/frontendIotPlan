@@ -17,6 +17,7 @@ const chatSocket = new WebSocket('wss://iotplan.onrender.com/ws/chat/2/');
 
 
 
+
 // const chatSocket = new WebSocket('ws://localhost:8000/ws/chat/2/');
 
 export default function AppView() {
@@ -37,23 +38,6 @@ export default function AppView() {
   const [chat, setChat] = useState([]);
   const [lc, setLc] = useState(true);
 
-  // useEffect(() => {
-  //   if(nhietdo === ''){
-  //     localStorage.removeItem('arrNhietdolc');
-  //   }
-  //   if(doam === ''){
-  //     localStorage.removeItem('arrDoamlc');
-  //   }
-  //   if(doamdat === ''){
-  //     localStorage.removeItem('arrDoamdatlc');
-  //   }
-  // }, [nhietdo,doam , doamdat]);
-
-  // useEffect(() => {
-  //   console.log('nhiet do lc: ', localStorage.getItem('arrNhietdolc'));
-  //   console.log('Do am lc: ', localStorage.getItem('arrDoamlc'));
-  //   console.log('Do am dat lc: ', localStorage.getItem('arrDoamdatlc'));
-  // }, [lc]);
 
   useEffect(() => {
     console.log('nhiet do lc: ', localStorage.getItem('arrNhietdolc'));
@@ -96,7 +80,17 @@ export default function AppView() {
       const nhietDo = roundedNum1.toString();
       const doAm = roundedNum2.toString();
       const doAmdat = roundedNum3.toString();
-      const dateTimeString = String(dateTime);
+      const dateTimeHandle= String(dateTime);
+
+      const xuliTime =dateTimeHandle.split(' ');
+
+      // Lấy phần ngày và giờ (không bao gồm phần thập phân sau giây)
+      const datePart = xuliTime[0];
+      const timePart = xuliTime[1].split('.')[0]; // Lấy phần trước dấu chấm của phần thập phân giây
+
+      // Tạo chuỗi mới mà không bao gồm phần thập phân sau giây
+      const dateTimeString = `${datePart} ${timePart}`;
+
 
       console.log('nhiet do:', nhietDo);
       console.log('do am:', doAm);
@@ -112,7 +106,7 @@ export default function AppView() {
       };
       const storedArrayNhietdo = JSON.parse(localStorage.getItem('arrNhietdolc')) || [];
       storedArrayNhietdo.push(newObjectNhietdo);
-      if (storedArrayNhietdo.length < 25) {
+      if (storedArrayNhietdo.length < 40) {
         localStorage.setItem('arrNhietdolc', JSON.stringify(storedArrayNhietdo));
       } else {
         localStorage.setItem('arrNhietdolc', JSON.stringify([]));
@@ -127,7 +121,7 @@ export default function AppView() {
       };
       const storedArrayDoam = JSON.parse(localStorage.getItem('arrDoamlc')) || [];
       storedArrayDoam.push(newObjectDoam );
-      if (storedArrayDoam.length < 25) {
+      if (storedArrayDoam.length < 40) {
         localStorage.setItem('arrDoamlc', JSON.stringify(storedArrayDoam));
       } else {
         localStorage.setItem('arrDoamlc', JSON.stringify([]));
@@ -141,7 +135,7 @@ export default function AppView() {
       };
       const storedArrayDoamdat = JSON.parse(localStorage.getItem('arrDoamdatlc')) || [];
       storedArrayDoamdat.push(newObjectDoamdat);
-      if (storedArrayDoamdat.length < 25) {
+      if (storedArrayDoamdat.length < 40) {
         localStorage.setItem('arrDoamdatlc', JSON.stringify(storedArrayDoamdat));
       } else {
         localStorage.setItem('arrDoamdatlc', JSON.stringify([]));
@@ -280,8 +274,8 @@ export default function AppView() {
                 series: [
                   {
                     name: 'Độ ẩm đất',
-                    type: 'line',
-                    fill: 'solid',
+                    type: 'area',
+                    fill: 'gradient',
                     data: doamdatArray,
                   },
                   // {
