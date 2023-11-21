@@ -25,7 +25,6 @@ import axios from 'axios';
 export default function EnhancedTable() {
 
     const [rows, setRows] = React.useState([]);
-
     useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,6 +35,7 @@ export default function EnhancedTable() {
           ...item,
           id: index + 1,
         }));
+
         setRows(dataWithId);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -69,6 +69,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: 'Soil Moisture',
+  },
+  {
+    id: 'watering',
+    numeric: true,
+    disablePadding: false,
+    label: 'State watering',
   },
 ];
 
@@ -142,7 +148,7 @@ function EnhancedTableToolbar(props) {
         </Typography>
       ) : (
         <Typography sx={{ flex: '1 1 100%' }} variant="h6" id="tableTitle" component="div">
-          Nutrition
+          Lịch sử
         </Typography>
       )}
 
@@ -287,6 +293,7 @@ EnhancedTableToolbar.propTypes = {
                     <TableCell align="right">{row.temperature}</TableCell>
                     <TableCell align="right">{row.humanlity}</TableCell>
                     <TableCell align="right">{row.soilMoisture}</TableCell>
+                    <TableCell align="right">{row.watering}</TableCell>
                   </TableRow>
                 );
               })}
